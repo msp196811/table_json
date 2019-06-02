@@ -98,63 +98,22 @@ document.querySelector('.pagi').addEventListener('click', function(e){
                    , 2200);
         
     });
+
+     document.querySelector('#search').addEventListener('keyup', function(){
+      const arr =  books.filter(item => { return (item.title.toLowerCase().indexOf(this.value.toLowerCase()) > -1) || (item.book.toLowerCase().indexOf(this.value.toLowerCase()) > -1) || (item.name.toLowerCase().indexOf(this.value.toLowerCase()) > -1) || (item.theme.toLowerCase().indexOf(this.value.toLowerCase()) > -1) || (item.price.toLowerCase().indexOf(this.value.toLowerCase()) > -1)}); 
+    if(arr.length > 0) {
     
-   /* Этот нужно сделать
-    document.querySelector('#search').addEventListener('keyup', function(){
-      const arr =  books.filter(item => { return item.title.indexOf(this.value) > 0}) > 0 ? books.filter(item => { return item.title.indexOf(this.value)>0}) : books;
-      console.log(arr);
-      removeElementsByClass();
       showBooks(0, 10, arr);
+      removeElementsByClass();
       addPagination(arr);
+                } else {
+          document.querySelector("#book-list").innerHTML = "Ничего не найдено";
+          removeElementsByClass();
+        }
     });
-/*
-    document.querySelector('#search').addEventListener('keyup', function(){
-      var fileList = books.filter(function(event) {
-          return event.indexOf(this.value) > -1
-        })
-      console.log(fileList);
-      //removeElementsByClass();
-      //showBooks(0, 10, arr);
-      //addPagination(arr);
-    });
-                                этот рабочий, но массив не возвращает 
-(function(){
-    'use strict';
-  var $ = jQuery;
-  $.fn.extend({
-    filterTable: function(){
-      return this.each(function(){
-        $(this).on('keyup', function(e){
-          $('.filterTable_no_results').remove();
-          var $this = $(this), 
-                        search = $this.val().toLowerCase(), 
-                        target = $this.attr('data-filters'), 
-                        $target = $(target), 
-                        $rows = $target.find('tbody tr');
-                        
-          if(search == '') {
-            $rows.show(); 
-          } else {
-            $rows.each(function(){
-              var $this = $(this);
-              $this.text().toLowerCase().indexOf(search) === -1 ? $this.hide() : $this.show();
-            })
-            if($target.find('tbody tr:visible').length === 0) {
-              var col_count = $target.find('tr').first().find('td').size();
-              var no_results = $('<tr class="filterTable_no_results"><td colspan="'+col_count+'">Не найдено результатов</td></tr>')
-              $target.find('tbody').append(no_results);
-            }
-          }
-        });
-      });
-    }
-  });
-  $('[data-action="filter"]').filterTable();
-})(jQuery);
-*/
 
 
-/*    var grid = document.getElementById('table');
+    var grid = document.getElementById('table');
     grid.onclick = function(e) {
       if (e.target.tagName != 'TH') return;
 
@@ -185,60 +144,7 @@ document.querySelector('.pagi').addEventListener('click', function(e){
 
       grid.appendChild(tbody);
 
-    }*/
-    function sortTable(f,n){
-    var rows = $('#table tbody tr').get();
-    console.log(rows);
-    rows.sort(function(a, b) {
-        var A = getVal(a);
-        var B = getVal(b);
-        if(A < B) {
-            return -1*f;
-        }
-        if(A > B) {
-            return 1*f;
-        }
-        return 0;
-    });
-
-    function getVal(elm){
-        var v = $(elm).children('td').eq(n).text().toUpperCase();
-        if($.isNumeric(v)){
-            v = parseInt(v,10);
-        }
-        return v;
     }
-    $.each(rows, function(index, row) {
-        $('#table').children('tbody').append(row);
-    });
-}
-var f_sl = 1; 
-var f_nm = 1; 
-$("#title").click(function(){
-    f_sl *= -1; 
-    var n = $(this).prevAll().length;
-    sortTable(f_sl,n);
-});
-$("#book").click(function(){
-    f_nm *= -1; 
-    var n = $(this).prevAll().length;
-    sortTable(f_nm,n);
-});
-$("#name").click(function(){
-    f_nm *= -1; 
-    var n = $(this).prevAll().length;
-    sortTable(f_nm,n);
-});
-$("#theme").click(function(){
-    f_nm *= -1; 
-    var n = $(this).prevAll().length;
-    sortTable(f_nm,n);
-});
-$("#price").click(function(){
-    f_nm *= -1; 
-    var n = $(this).prevAll().length;
-    sortTable(f_nm,n);
-});
     document.querySelector('#update-form').addEventListener('submit', function(e){
         e.preventDefault();
         if(confirm('Обновить?')) {
