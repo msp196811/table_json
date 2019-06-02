@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <style>
+    .success, .error {
+      color: white;
+      padding: 5px;
+      margin: 5px 0 15px 0;
+    }
+
+    .success {
+        background: green;
+        text-align: center;
+    }
+      .hide {
+          display: none;
+      }
+
+    .error {
+      background: red;
+    }
+      .modal {
+          display: none;
+          background-color: rgba(0, 0, 0, .8);
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 99;
+          width: 100%;
+          height: 100%;
+          padding-top: 100px;
+      }
+      .modal .container {
+          background-color: #fff;
+          padding: 20px;
+      }
+      .modal.active {
+          display: block;
+          
+      }
+      .close {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          color: #fff;
+          font-weight: 700;
+          font-size: 30px;
+          cursor: pointer;
+      }
+      .btn {
+          cursor: pointer;
+          display: block;
+          max-width: 200px;
+          padding: 6px;
+          text-align: center;
+          border: 1px solid #999;
+          border-radius: 4px;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          -o-user-select: none;
+          user-select: none;
+          margin-top: 10px;
+      }
+      .upd {
+          cursor: pointer;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          -o-user-select: none;
+          user-select: none;
+      }
+      .pagi {
+          display: -webkit-flex;
+          display: -moz-flex;
+          display: -ms-flex;
+          display: -o-flex;
+          display: flex;
+          list-style-type: none;
+          align-items: center;
+          justify-content: center;
+      }
+      .pagi li {
+          display: block;
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          text-align: center;
+          border: 1px solid #999;
+          cursor: pointer;
+      }
+      .head {
+          cursor: pointer;
+      }
+      .pagi li.active {
+          cursor: not-allowed;
+          background-color: lightblue;
+      }
+      .delete {
+          color: #000;
+          font-family: 700;
+          cursor: pointer;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          -o-user-select: none;
+          user-select: none;
+      }
+      #search{
+        max-width: 200px;
+        margin-top: 10px;
+      }
+  </style>
+  <title>Book List</title>
+</head>
+<body>
+  <div class="container">
+   <div class="row" style="display:flex; justify-content: flex-end">
+     
+     <div class="search" style="margin-right: auto"><input type="text" class="form-control" id="search" data-action="filter" data-filters="#table" placeholder="Фильтр"/></div>
+     <div class="addbuton"><a class="btn btn-primary jsOpenModal">Добавить</a></div>
+   </div>
+   <hr>    
+    <div class="modal">
+       <div class="close">X</div>
+        <div class="container">
+    <div class="success hide">
+          Книга успешно добавлена
+      </div>
+      
+    <h1 class="text-center">Добавить книгу</h1>
+    <form id="book-form">
+      <div class="form-group">
+        <label for="title">Название</label>
+        <input type="text" id="title" class="form-control" placeholder="Название" required>
+      </div>
+      <div class="form-group">
+        <label for="book">Книга</label>
+        <input type="text" id="book" class="form-control" placeholder="Книга" required>
+      </div>
+      <div class="form-group">
+        <label for="name">Автор</label>
+        <input type="text" id="name" class="form-control" placeholder="Автор" required>
+      </div>
+      <div class="form-group">
+        <label for="theme">Тема</label>
+        <input type="text" id="theme" class="form-control" placeholder="Тема" required>
+      </div>
+      <div class="form-group">
+        <label for="theme">Цена</label>
+        <input type="number" id="price" class="form-control" placeholder="Цена" required>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Отправить" class="form-control">
+      </div>
+    </form>
+      </div>
+      </div>
+      <div class="modal jsUpdateModal">
+       <div class="close">X</div>
+        <div class="container">
+    <div class="success hide">
+          Книга успешно обновлена
+      </div>
+      
+    <h1 class="text-center">Обновить книгу</h1>
+    <form id="update-form">
+     <input type="hidden" id="id-hidden" class="form-control">
+      <div class="form-group">
+        <label for="up-title">Название</label>
+        <input type="text" id="up-title" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="up-book">Книга</label>
+        <input type="text" id="up-book" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="up-name">Автор</label>
+        <input type="text" id="up-name" class="form-control" required>
+      </div>
+         <div class="form-group">
+        <label for="up-theme">Тема</label>
+        <input type="text" id="up-theme" class="form-control" required>
+      </div>
+        <div class="form-group">
+        <label for="up-price">Цена</label>
+        <input type="number" id="up-price" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Обновить" class="form-control">
+      </div>
+    </form>
+      </div>
+      </div>
+    <table class="table" id="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col"></th>
+          <th scope="col" class="head" data-type="string" data-filter="title" id="title">Title&#8597</th>
+          <th scope="col" class="head" data-type="string" data-filter="book" id="book">Book&#8597</th>
+          <th scope="col" class="head" data-type="string" data-filter="name" id="name">Name&#8597</th>
+          <th scope="col" class="head" data-type="string" data-filter="theme" id="theme">Theme&#8597</th>
+          <th scope="col" class="head" data-type="number" data-filter="price" id="price">Price&#8597</th>
+          <th scope="col"></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="book-list"></tbody>
+    </table>
+    <ul class="pagi" id="pagina">
+        
+    </ul>
+  </div>
+
+  <script src="appes6.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</body>
+</html>
