@@ -98,7 +98,16 @@ document.querySelector('.pagi').addEventListener('click', function(e){
                    , 2200);
         
     });
-
+    
+    """Этот нужно сделать"""
+    document.querySelector('#search').addEventListener('keyup', function(){
+      const arr =  books.filter(item => { return item.title.indexOf(this.value) > 0}) > 0 ? books.filter(item => { return item.title.indexOf(this.value)>0}) : books;
+      console.log(arr);
+      removeElementsByClass();
+      showBooks(0, 10, arr);
+      addPagination(arr);
+    });
+/*
     document.querySelector('#search').addEventListener('keyup', function(){
       var fileList = books.filter(function(event) {
           return event.indexOf(this.value) > -1
@@ -108,7 +117,7 @@ document.querySelector('.pagi').addEventListener('click', function(e){
       //showBooks(0, 10, arr);
       //addPagination(arr);
     });
-/*
+                                этот рабочий, но массив не возвращает 
 (function(){
     'use strict';
   var $ = jQuery;
