@@ -99,7 +99,7 @@ document.querySelector('.pagi').addEventListener('click', function(e){
         
     });
     
-    """Этот нужно сделать"""
+   // """Этот нужно сделать"""
     document.querySelector('#search').addEventListener('keyup', function(){
       const arr =  books.filter(item => { return item.title.indexOf(this.value) > 0}) > 0 ? books.filter(item => { return item.title.indexOf(this.value)>0}) : books;
       console.log(arr);
