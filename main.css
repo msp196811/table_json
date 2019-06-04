@@ -28,7 +28,7 @@
 }
 .modal .container {
           background-color: #fff;
-          padding: 20px;
+          padding: 10px;
 }
 .modal.active {
           display: block;
