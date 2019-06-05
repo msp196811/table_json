@@ -18,7 +18,7 @@ async function CRUD() {
         for(let i = start; i < end && i < arr.length; i++) {
             const tr = document.createElement('tr');
             tr.classList.add('book-item');
-            tr.innerHTML = `<tr><th class="id" style="width:2%; visibility: hidden;">${i}</th><th>${arr[i].title}</th><th>${arr[i].book}</th><th>${arr[i].name}</th><th>${arr[i].theme}</th><th>${arr[i].price}</th><th class="upd" style="width:2%">&#9997</th><th class="delete" style="width:2%">&#128465</th></tr>`;
+            tr.innerHTML = `<tr><th class="id" style="width:2%; visibility: hidden;">${i}</th><th>${arr[i].title}</th><th>${arr[i].book}</th><th>${arr[i].name}</th><th>${arr[i].theme}</th><th>${arr[i].price}</th><th class="upd" data-toggle="modal" data-target="#myModalUpdate" style="width:2%">&#9997</th><th class="delete" style="width:2%">&#128465</th></tr>`;
             bookList.appendChild(tr);
      }    
     };
@@ -49,18 +49,6 @@ document.querySelector('.pagi').addEventListener('click', function(e){
     showBooks(start, end, books);
      
 });
-    
-    //ОБРАБОТКА МОДАЛЬНОГО
-    document.querySelector('.jsOpenModal').addEventListener('click', function(){
-        document.querySelector('.modal').classList.add('active'); 
-    });
-    //ОБРАБОТКА МОДАЛЬНОГО
-    const closesBtn = document.querySelectorAll('.close');
-    closesBtn.forEach(function(item){
-        item.addEventListener('click', function(){
-        this.parentElement.classList.remove('active'); 
-    });    
-    });
     
     
     bookList.addEventListener('click', function(e){
@@ -95,11 +83,11 @@ document.querySelector('.pagi').addEventListener('click', function(e){
         showBooks(0, 10, books);
         this.reset();
 
+        $("#myModal .close").click()
         document.querySelector('.success').classList.remove('hide');
         setTimeout(function() {
             document.querySelector('.success').classList.add('hide')}
                    , 2200);
-        
     });
 
      document.querySelector('#search').addEventListener('keyup', function(){
@@ -161,10 +149,12 @@ document.querySelector('.pagi').addEventListener('click', function(e){
         showBooks(0, 10, books);
         document.querySelector('.jsUpdateModal').classList.remove('active');
         localStorage.setItem("books",JSON.stringify(books));
+
+
+        $("#myModalUpdate .close").click()
         }
         return false;
     })
-    
     }
     
 CRUD();
