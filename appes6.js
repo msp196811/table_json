@@ -91,6 +91,7 @@ document.querySelector('.pagi').addEventListener('click', function(e){
             price = document.querySelector('#price').value;
         const obj = {'title': title, 'book': book,  'name': name, 'theme': theme, 'price': price};
         books.unshift(obj);
+        localStorage.setItem("books",JSON.stringify(books));
         showBooks(0, 10, books);
         this.reset();
 
