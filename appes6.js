@@ -18,7 +18,7 @@ async function CRUD() {
         for(let i = start; i < end && i < arr.length; i++) {
             const tr = document.createElement('tr');
             tr.classList.add('book-item');
-            tr.innerHTML = `<tr><th class="id" style="width:2%; visibility: hidden;">${i}</th><th>${arr[i].title}</th><th>${arr[i].book}</th><th>${arr[i].name}</th><th>${arr[i].theme}</th><th>${arr[i].price}</th><th class="upd" data-toggle="modal" data-target="#myModalUpdate" style="width:2%">&#9997</th><th class="delete" style="width:2%">&#128465</th></tr>`;
+            tr.innerHTML = `<tr><th class="id" style="width:2%; visibility: hidden;">${i}</th><th>${arr[i].title}</th><th>${arr[i].book}</th><th>${arr[i].name}</th><th>${arr[i].theme}</th><th>${arr[i].price}</th><th class="upd" style="width:2%">&#9997</th><th class="delete" style="width:2%">&#128465</th></tr>`;
             bookList.appendChild(tr);
      }    
     };
@@ -49,6 +49,18 @@ document.querySelector('.pagi').addEventListener('click', function(e){
     showBooks(start, end, books);
      
 });
+    
+    //ОБРАБОТКА МОДАЛЬНОГО
+    document.querySelector('.jsOpenModal').addEventListener('click', function(){
+        document.querySelector('.modal').classList.add('active'); 
+    });
+    //ОБРАБОТКА МОДАЛЬНОГО
+    const closesBtn = document.querySelectorAll('.close');
+    closesBtn.forEach(function(item){
+        item.addEventListener('click', function(){
+        this.parentElement.classList.remove('active'); 
+    });    
+    });
     
     
     bookList.addEventListener('click', function(e){
@@ -82,14 +94,12 @@ document.querySelector('.pagi').addEventListener('click', function(e){
         localStorage.setItem("books",JSON.stringify(books));
         showBooks(0, 10, books);
         this.reset();
-
-        $("#myModal .close").click()
         document.querySelector('.success').classList.remove('hide');
         setTimeout(function() {
             document.querySelector('.success').classList.add('hide')}
                    , 2200);
+        
     });
-
      document.querySelector('#search').addEventListener('keyup', function(){
       const arr =  books.filter(item => { return (item.title.toLowerCase().indexOf(this.value.toLowerCase()) > -1) || (item.book.toLowerCase().indexOf(this.value.toLowerCase()) > -1) || (item.name.toLowerCase().indexOf(this.value.toLowerCase()) > -1) || (item.theme.toLowerCase().indexOf(this.value.toLowerCase()) > -1) || (item.price.toLowerCase().indexOf(this.value.toLowerCase()) > -1)}); 
     if(arr.length > 0) {
@@ -102,12 +112,9 @@ document.querySelector('.pagi').addEventListener('click', function(e){
           removeElementsByClass();
         }
     });
-
-
     var grid = document.getElementById('table');
     grid.onclick = function(e) {
       if (e.target.tagName != 'TH') return;
-
       sortGrid(e.target.cellIndex, e.target.getAttribute('data-type'));
     };
   function sortGrid(colNum, type) {
@@ -126,15 +133,12 @@ document.querySelector('.pagi').addEventListener('click', function(e){
           };
           break;
       }
-
       rowsArray.sort(compare);
       grid.removeChild(tbody);
       for (var i = 0; i < rowsArray.length; i++) {
         tbody.appendChild(rowsArray[i]);
       }
-
       grid.appendChild(tbody);
-
     }
     document.querySelector('#update-form').addEventListener('submit', function(e){
         e.preventDefault();
@@ -149,12 +153,10 @@ document.querySelector('.pagi').addEventListener('click', function(e){
         showBooks(0, 10, books);
         document.querySelector('.jsUpdateModal').classList.remove('active');
         localStorage.setItem("books",JSON.stringify(books));
-
-
-        $("#myModalUpdate .close").click()
         }
         return false;
     })
+    
     }
     
 CRUD();
