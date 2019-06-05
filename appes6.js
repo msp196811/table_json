@@ -1,12 +1,17 @@
 const bookList = document.querySelector('#book-list');
-const books = [];
+var books = [];
 const pagi = document.querySelector('.pagi');
 const booksJson =  fetch(`./page/page-1.json`).then((resp) => resp.json()).catch(function(err) {  
     console.log('Error :-S', err);  
   }); 
 console.log(booksJson);
 async function CRUD() {
-    await booksJson.then(data => data.map(item => books.push(item))); //загружаем в массив
+   if (!!(window.localStorage.getItem('books'))) {
+      books = JSON.parse(window.localStorage.getItem('books'));
+    } else {
+      await booksJson.then(data => data.map(item => books.push(item)));
+      localStorage.setItem("books",JSON.stringify(books));
+    } 
     console.log(books);
     function showBooks(start, end, arr) {
         bookList.innerHTML = '';
@@ -15,13 +20,9 @@ async function CRUD() {
             tr.classList.add('book-item');
             tr.innerHTML = `<tr><th class="id" style="width:2%; visibility: hidden;">${i}</th><th>${arr[i].title}</th><th>${arr[i].book}</th><th>${arr[i].name}</th><th>${arr[i].theme}</th><th>${arr[i].price}</th><th class="upd" style="width:2%">&#9997</th><th class="delete" style="width:2%">&#128465</th></tr>`;
             bookList.appendChild(tr);
-        
      }    
     };
-    
     showBooks(0, 10, books);
-    
-
     function addPagination(arr) {
     const pageCount = Math.ceil(arr.length / 10);
      for(let i = 0; i < pageCount; i++) {
@@ -66,6 +67,7 @@ document.querySelector('.pagi').addEventListener('click', function(e){
         const target = e.target;
         const id = (target.classList.contains('delete') || target.classList.contains('upd')) &&  target.parentElement.firstElementChild.textContent;
         target.classList.contains('delete') && confirm("Точно удалить?") && books.splice(id, 1);
+        localStorage.setItem("books",JSON.stringify(books));
         if(target.classList.contains('upd')) {
           document.querySelector('.jsUpdateModal').classList.add('active');
           const title = document.querySelector('#up-title').value = books[id].title,
@@ -157,6 +159,7 @@ document.querySelector('.pagi').addEventListener('click', function(e){
         books[hiddenId] = {'title': title, 'book': book, 'name': name, 'theme': theme, 'price': price};
         showBooks(0, 10, books);
         document.querySelector('.jsUpdateModal').classList.remove('active');
+        localStorage.setItem("books",JSON.stringify(books));
         }
         return false;
     })
