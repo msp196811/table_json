@@ -13,18 +13,22 @@
    <div class="row" style="display:flex; justify-content: flex-end">
      
      <div class="search" style="margin-right: auto"><input type="text" class="form-control" id="search" data-action="filter" data-filters="#table" placeholder="Фильтр"/></div>
-     <div class="addbuton"><a class="btn btn-primary jsOpenModal">Добавить</a></div>
+     <button type="button" class="btn btn-primary addbuton" data-toggle="modal" data-target="#myModal">
+  Добавить книгу
+</button>
    </div>
-   <hr>    
-    <div class="modal">
-       <div class="close">X</div>
-        <div class="container">
-    <div class="success hide">
-          Книга успешно добавлена
+   <hr>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Добавить книгу</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
-      
-    <h1 class="text-center">Добавить книгу</h1>
-    <form id="book-form">
+      <div class="modal-body">
+            <form id="book-form">
       <div class="form-group">
         <label for="title">Название</label>
         <input type="text" id="title" class="form-control" placeholder="Название" required>
@@ -50,16 +54,21 @@
       </div>
     </form>
       </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal jsUpdateModal" id="myModalUpdate">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Обновить книгу</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
-      <div class="modal jsUpdateModal">
-       <div class="close">X</div>
-        <div class="container">
-    <div class="success hide">
-          Книга успешно обновлена
-      </div>
-      
-    <h1 class="text-center">Обновить книгу</h1>
-    <form id="update-form">
+      <div class="modal-body">
+      <form id="update-form">
      <input type="hidden" id="id-hidden" class="form-control">
       <div class="form-group">
         <label for="up-title">Название</label>
@@ -82,9 +91,11 @@
         <input type="number" id="up-price" class="form-control" required>
       </div>
       <div class="form-group">
-        <input type="submit" value="Обновить" class="form-control">
+        <input type="submit" value="Обновить" class="form-control" id="Submit">
       </div>
     </form>
+      </div>
+  </div>
       </div>
       </div>
     <table class="table" id="table">
